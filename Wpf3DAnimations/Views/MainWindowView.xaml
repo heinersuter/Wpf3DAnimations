@@ -28,14 +28,14 @@
             <!-- Outer Axis -->
             <ModelVisual3D Transform="{Binding OuterAxisTransform}">
 
-                <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="-5.5 0.0 0.0" Fill="Silver"/>
-                <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="5.5 0.0 0.0" Fill="Silver"/>
-                <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -1.5" Fill="Silver"/>
+                <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="-5.5 0.0 0.0" Fill="DarkRed"/>
+                <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="5.5 0.0 0.0" Fill="DarkRed"/>
+                <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -1.5" Fill="DarkRed"/>
 
                 <!-- Inner Axis (Disc) -->
                 <ModelVisual3D Transform="{Binding InnerAxisTransform}">
                     <h:PipeVisual3D Diameter="6.0" InnerDiameter="0.0" Point1="0.0 0.0 -1.0" Point2="0.0 0.0 0.0" Fill="Silver"/>
-                    <h:BoxVisual3D Length="0.5" Width="3.01" Height="1.02" Center="0.0 1.505 -0.5" Fill="Red"/>
+                    <h:BoxVisual3D Length="0.5" Width="3.01" Height="1.02" Center="0.0 1.505 -0.5" Fill="SteelBlue"/>
                 </ModelVisual3D>
 
             </ModelVisual3D>
