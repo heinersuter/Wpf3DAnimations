@@ -16,16 +16,16 @@
         <h:DefaultLights/>
 
         <!-- Stand -->
-        <h:BoxVisual3D Length="1.0" Width="4.0" Height="6.0" Center="-6.5 0.0 -2.0" Fill="Gray"/>
-        <h:BoxVisual3D Length="1.0" Width="4.0" Height="6.0" Center="6.5 0.0 -2.0" Fill="Gray"/>
-        <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -4.5" Fill="Gray"/>
+        <h:BoxVisual3D Length="1.0" Width="4.0" Height="6.0" Center="-6.5 0.0 -2.0" Fill="DarkRed"/>
+        <h:BoxVisual3D Length="1.0" Width="4.0" Height="6.0" Center="6.5 0.0 -2.0" Fill="DarkRed"/>
+        <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -4.5" Fill="DarkRed"/>
 
         <!-- Outer Axis -->
         <ModelVisual3D Transform="{Binding OuterAxisTransform}">
 
-            <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="-5.5 0.0 0.0" Fill="DarkRed"/>
-            <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="5.5 0.0 0.0" Fill="DarkRed"/>
-            <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -1.5" Fill="DarkRed"/>
+            <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="-5.5 0.0 0.0" Fill="Gray"/>
+            <h:BoxVisual3D Length="1.0" Width="4.0" Height="2.0" Center="5.5 0.0 0.0" Fill="Gray"/>
+            <h:BoxVisual3D Length="12.0" Width="4.0" Height="1.0" Center="0.0 0.0 -1.5" Fill="Gray"/>
 
             <!-- Inner Axis (Disc) -->
             <ModelVisual3D Transform="{Binding InnerAxisTransform}">
