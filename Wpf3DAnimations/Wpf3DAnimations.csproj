@@ -67,6 +67,9 @@
     <Compile Include="Common\Mvvm\ViewModel.cs" />
     <Compile Include="Common\Utilities\EventArgs.cs" />
     <Compile Include="Simulator\AxisSimulator.cs" />
+    <Compile Include="Views\AxisView.xaml.cs">
+      <DependentUpon>AxisView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AxisViewModel.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
@@ -76,6 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\MainWindowViewModel.cs" />
+    <Page Include="Views\AxisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

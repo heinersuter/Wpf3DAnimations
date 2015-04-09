@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Wpf3DAnimations.Views.AxisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:Wpf3DAnimations.Views"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance views:AxisViewModel}">
+    <StackPanel>
+
+        <TextBlock Text="{Binding Title}" Margin="0 8"/>
+        
+        <TextBlock Text="Rate"/>
+        <Slider Value="{Binding Rate}" Minimum="-360" Maximum="360" TickFrequency="1" IsSnapToTickEnabled="True"/>
+        <TextBox Text="{Binding Rate}" TextAlignment="Right"/>
+        
+        <TextBlock Text="Position"/>
+        <Slider Value="{Binding Position}" Minimum="0" Maximum="359" TickFrequency="1" IsSnapToTickEnabled="True"/>
+        <TextBox Text="{Binding Position}" TextAlignment="Right"/>
+
+    </StackPanel>
+</UserControl>

@@ -9,21 +9,8 @@
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Right" Width="128" Margin="8">
-            <TextBlock Text="Outer Axis" Margin="0 8"/>
-            <TextBlock Text="Rate"/>
-            <Slider Value="{Binding OuterAxisRate}" Minimum="-360" Maximum="360" TickFrequency="1" IsSnapToTickEnabled="True"/>
-            <TextBox Text="{Binding OuterAxisRate}" TextAlignment="Right"/>
-            <TextBlock Text="Position"/>
-            <Slider Value="{Binding OuterAxisPosition}" Minimum="0" Maximum="359" TickFrequency="1" IsSnapToTickEnabled="True"/>
-            <TextBox Text="{Binding OuterAxisPosition}" TextAlignment="Right"/>
-
-            <TextBlock Text="Inner Axis" Margin="0 8"/>
-            <TextBlock Text="Rate"/>
-            <Slider Value="{Binding InnerAxisRate}" Minimum="-360" Maximum="360" TickFrequency="1" IsSnapToTickEnabled="True"/>
-            <TextBox Text="{Binding InnerAxisRate}" TextAlignment="Right"/>
-            <TextBlock Text="Position"/>
-            <Slider Value="{Binding InnerAxisPosition}" Minimum="0" Maximum="359" TickFrequency="1" IsSnapToTickEnabled="True"/>
-            <TextBox Text="{Binding InnerAxisPosition}" TextAlignment="Right"/>
+            <views:AxisView DataContext="{Binding OuterAxisViewModel}"/>
+            <views:AxisView DataContext="{Binding InnerAxisViewModel}"/>
         </StackPanel>
 
         <h:HelixViewport3D x:Name="HelixViewport3D" ShowViewCube="False">

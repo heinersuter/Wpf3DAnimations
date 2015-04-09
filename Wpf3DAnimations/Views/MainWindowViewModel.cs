@@ -24,6 +24,10 @@
         public MainWindowViewModel(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
+
+            InnerAxisViewModel = new AxisViewModel(_innerAxisSimulator) { Title = "Inner Axis" };
+            OuterAxisViewModel = new AxisViewModel(_outerAxisSimulator) { Title = "Outer Axis" };
+
             var worker = new BackgroundWorker();
             worker.DoWork += Poll;
             worker.RunWorkerAsync();
@@ -44,28 +48,31 @@
             private set { BackingFields.SetValue(value); }
         }
 
-        public double InnerAxisPosition
+        public AxisViewModel InnerAxisViewModel
         {
-            get { return BackingFields.GetValue<double>(); }
-            set { BackingFields.SetValue(value, x => _innerAxisSimulator.Position = value); }
+            get { return BackingFields.GetValue<AxisViewModel>(); }
+            private set { BackingFields.SetValue(value); }
         }
 
-        public double InnerAxisRate
+        public AxisViewModel OuterAxisViewModel
         {
-            get { return BackingFields.GetValue<double>(); }
-            set { BackingFields.SetValue(value, x => _innerAxisSimulator.Rate = value); }
+            get { return BackingFields.GetValue<AxisViewModel>(); }
+            private set { BackingFields.SetValue(value); }
         }
 
-        public double OuterAxisPosition
+        private void Poll(object sender, DoWorkEventArgs args)
         {
-            get { return BackingFields.GetValue<double>(); }
-            set { BackingFields.SetValue(value, x => _outerAxisSimulator.Position = value); }
-        }
-
-        public double OuterAxisRate
-        {
-            get { return BackingFields.GetValue<double>(); }
-            set { BackingFields.SetValue(value, x => _outerAxisSimulator.Rate = value); }
+            while (true)
+            {
+                _dispatcher.Invoke(() =>
+                {
+                    InnerAxisViewModel.Position = _innerAxisSimulator.Position;
+                    OuterAxisViewModel.Position = _outerAxisSimulator.Position;
+                    Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
+                    Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
+                });
+                Thread.Sleep(_pollingTime);
+            }
         }
 
         private void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
@@ -82,21 +89,6 @@
                 // Jump to current position
                 axisAngleRotation3D.BeginAnimation(AxisAngleRotation3D.AngleProperty,
                     new DoubleAnimation(position, new Duration(TimeSpan.Zero)));
-            }
-        }
-
-        private void Poll(object sender, DoWorkEventArgs args)
-        {
-            while (true)
-            {
-                _dispatcher.Invoke(() =>
-                {
-                    InnerAxisPosition = _innerAxisSimulator.Position;
-                    OuterAxisPosition = _outerAxisSimulator.Position;
-                    Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
-                    Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
-                });
-                Thread.Sleep(_pollingTime);
             }
         }
     }
