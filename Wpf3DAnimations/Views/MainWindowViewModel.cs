@@ -25,26 +25,18 @@
         {
             _dispatcher = dispatcher;
 
+            TwoAxesViewModel = new TwoAxesViewModel(_innerAxisRotation, _outerAxisRotation);
             InnerAxisViewModel = new AxisViewModel(_innerAxisSimulator) { Title = "Inner Axis" };
             OuterAxisViewModel = new AxisViewModel(_outerAxisSimulator) { Title = "Outer Axis" };
 
             var worker = new BackgroundWorker();
             worker.DoWork += Poll;
             worker.RunWorkerAsync();
-
-            InnerAxisTransform = new RotateTransform3D(_innerAxisRotation);
-            OuterAxisTransform = new RotateTransform3D(_outerAxisRotation);
         }
 
-        public RotateTransform3D InnerAxisTransform
+        public TwoAxesViewModel TwoAxesViewModel
         {
-            get { return BackingFields.GetValue<RotateTransform3D>(); }
-            private set { BackingFields.SetValue(value); }
-        }
-
-        public RotateTransform3D OuterAxisTransform
-        {
-            get { return BackingFields.GetValue<RotateTransform3D>(); }
+            get { return BackingFields.GetValue<TwoAxesViewModel>(); }
             private set { BackingFields.SetValue(value); }
         }
 

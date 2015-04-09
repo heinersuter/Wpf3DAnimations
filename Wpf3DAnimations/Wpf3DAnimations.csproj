@@ -79,6 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\MainWindowViewModel.cs" />
+    <Compile Include="Views\TwoAxesView.xaml.cs">
+      <DependentUpon>TwoAxesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TwoAxesViewModel.cs" />
     <Page Include="Views\AxisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -86,6 +90,10 @@
     <Page Include="Views\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TwoAxesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
