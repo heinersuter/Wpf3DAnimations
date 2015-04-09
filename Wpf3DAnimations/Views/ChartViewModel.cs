@@ -19,7 +19,7 @@
 
             PlotModel = new PlotModel();
 
-            _timeAxis = new TimeSpanAxis { Position = AxisPosition.Bottom, Title = "Time",  };
+            _timeAxis = new TimeSpanAxis { Position = AxisPosition.Bottom, Title = "Time", };
             PlotModel.Axes.Add(_timeAxis);
             PlotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Degrees", Minimum = 0, Maximum = 360 });
 

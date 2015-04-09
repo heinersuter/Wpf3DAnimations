@@ -1,35 +1,46 @@
 ﻿namespace Wpf3DAnimations.Simulator
 {
-    using System.ComponentModel;
+    using System;
+    using System.Diagnostics;
     using System.Threading;
 
-    public class AxisSimulator
+    public class AxisSimulator : IDisposable
     {
+        private readonly Stopwatch _stopWatch;
+        private readonly Timer _timer;
+
         public AxisSimulator()
         {
-            var worker = new BackgroundWorker();
-            worker.DoWork += UpdateValues;
-            worker.RunWorkerAsync();
+            _stopWatch = new Stopwatch();
+            _timer = new Timer(state => UpdateValues(), null, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
         }
 
         public double Rate { get; set; }
 
         public double Position { get; set; }
 
-        private void UpdateValues(object sender, DoWorkEventArgs args)
+        private void UpdateValues()
         {
-            const int framerate = 100; // per second
-            while (true)
+            if (!_stopWatch.IsRunning)
             {
-                var newPosition = (Position + (Rate / framerate));
-                newPosition = newPosition % 360.0;
-                if (newPosition < 0)
-                {
-                    newPosition = 360.0 + newPosition;
-                }
-                Position = newPosition;
-                Thread.Sleep(1000 / framerate);
+                _stopWatch.Start();
             }
+            var timeSinceLastUpdate = _stopWatch.Elapsed;
+            _stopWatch.Restart();
+            var framesPerSecond = 10000000.0 / timeSinceLastUpdate.Ticks;
+
+            var newPosition = (Position + (Rate / framesPerSecond));
+            newPosition = newPosition % 360.0;
+            if (newPosition < 0)
+            {
+                newPosition = 360.0 + newPosition;
+            }
+            Position = newPosition;
+        }
+
+        public void Dispose()
+        {
+            _timer.Dispose();
         }
     }
 }
