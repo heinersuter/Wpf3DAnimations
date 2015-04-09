@@ -13,7 +13,16 @@
             <views:AxisView DataContext="{Binding InnerAxisViewModel}"/>
         </StackPanel>
 
-        <views:TwoAxesView DataContext="{Binding TwoAxesViewModel}"/>
+        <TabControl TabStripPlacement="Bottom">
+            
+            <TabItem Header="3D Model">
+                <views:TwoAxesView DataContext="{Binding TwoAxesViewModel}"/>
+            </TabItem>
+            
+            <TabItem Header="Chart">
+                <views:ChartView DataContext="{Binding ChartViewModel}"/>
+            </TabItem>
 
+        </TabControl>
     </DockPanel>
 </Window>
