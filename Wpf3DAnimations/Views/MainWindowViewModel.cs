@@ -1,7 +1,6 @@
 ﻿namespace Wpf3DAnimations.Views
 {
     using System;
-    using System.ComponentModel;
     using System.Threading;
     using System.Windows;
     using System.Windows.Media.Animation;
@@ -10,10 +9,11 @@
     using Wpf3DAnimations.Common.Mvvm;
     using Wpf3DAnimations.Simulator;
 
-    public class MainWindowViewModel : ViewModel
+    public class MainWindowViewModel : ViewModel, IDisposable
     {
         private readonly Dispatcher _dispatcher;
-        private readonly TimeSpan _pollingTime = TimeSpan.FromSeconds(0.2);
+        private readonly TimeSpan _pollingTime = TimeSpan.FromSeconds(0.1);
+        private readonly Timer _timer;
 
         private readonly AxisAngleRotation3D _innerAxisRotation = new AxisAngleRotation3D(new Vector3D(0.0, 0.0, 1.0), 0.0);
         private readonly AxisAngleRotation3D _outerAxisRotation = new AxisAngleRotation3D(new Vector3D(1.0, 0.0, 0.0), 0.0);
@@ -30,9 +30,7 @@
             OuterAxisViewModel = new AxisViewModel(_outerAxisSimulator) { Title = "Outer Axis" };
             ChartViewModel = new ChartViewModel();
 
-            var worker = new BackgroundWorker();
-            worker.DoWork += Poll;
-            worker.RunWorkerAsync();
+            _timer = new Timer(state => Poll(), null, TimeSpan.Zero, _pollingTime);
         }
 
         public TwoAxesViewModel TwoAxesViewModel
@@ -59,23 +57,19 @@
             private set { BackingFields.SetValue(value); }
         }
 
-        private void Poll(object sender, DoWorkEventArgs args)
+        private void Poll()
         {
-            while (true)
+            _dispatcher.Invoke(() =>
             {
-                _dispatcher.Invoke(() =>
-                {
-                    InnerAxisViewModel.Position = _innerAxisSimulator.Position;
-                    OuterAxisViewModel.Position = _outerAxisSimulator.Position;
-                    ChartViewModel.AddPositionPoint(_innerAxisSimulator.Position);
-                    Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
-                    Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
-                });
-                Thread.Sleep(_pollingTime);
-            }
+                InnerAxisViewModel.Position = _innerAxisSimulator.Position;
+                OuterAxisViewModel.Position = _outerAxisSimulator.Position;
+                ChartViewModel.AddPositionPoint(_innerAxisSimulator.Position);
+                Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
+                Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
+            });
         }
 
-        private void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
+        private static void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
         {
             if (Math.Abs(rate) > 0.1 * animationDuration.TotalSeconds)
             {
@@ -90,6 +84,13 @@
                 axisAngleRotation3D.BeginAnimation(AxisAngleRotation3D.AngleProperty,
                     new DoubleAnimation(position, new Duration(TimeSpan.Zero)));
             }
+        }
+
+        public void Dispose()
+        {
+            _innerAxisSimulator.Dispose();
+            _outerAxisSimulator.Dispose();
+            _timer.Dispose();
         }
     }
 }
