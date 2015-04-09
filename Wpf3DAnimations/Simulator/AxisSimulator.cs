@@ -1,4 +1,4 @@
-﻿namespace Wpf3DAnimations
+﻿namespace Wpf3DAnimations.Simulator
 {
     using System.ComponentModel;
     using System.Threading;

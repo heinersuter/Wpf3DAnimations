@@ -1,15 +1,18 @@
-﻿namespace Wpf3DAnimations
+﻿namespace Wpf3DAnimations.Views
 {
     using System;
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Windows;
     using System.Windows.Media.Animation;
     using System.Windows.Media.Media3D;
+    using System.Windows.Threading;
+    using Wpf3DAnimations.Common.Mvvm;
+    using Wpf3DAnimations.Simulator;
 
-    public partial class MainWindow : INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModel
     {
+        private readonly Dispatcher _dispatcher;
         private readonly TimeSpan _pollingTime = TimeSpan.FromSeconds(0.2);
 
         private readonly AxisAngleRotation3D _innerAxisRotation = new AxisAngleRotation3D(new Vector3D(0.0, 0.0, 1.0), 0.0);
@@ -18,66 +21,51 @@
         private readonly AxisSimulator _innerAxisSimulator = new AxisSimulator();
         private readonly AxisSimulator _outerAxisSimulator = new AxisSimulator();
 
-        private double _innerAxisRate;
-        private double _innerAxisPosition;
-        private double _outerAxisRate;
-        private double _outerAxisPosition;
-
-        public MainWindow()
+        public MainWindowViewModel(Dispatcher dispatcher)
         {
-            InitializeComponent();
-            DataContext = this;
-
+            _dispatcher = dispatcher;
             var worker = new BackgroundWorker();
             worker.DoWork += Poll;
             worker.RunWorkerAsync();
 
-            InnerAxis.Transform = new RotateTransform3D(_innerAxisRotation);
-            OuterAxis.Transform = new RotateTransform3D(_outerAxisRotation);
+            InnerAxisTransform = new RotateTransform3D(_innerAxisRotation);
+            OuterAxisTransform = new RotateTransform3D(_outerAxisRotation);
         }
 
-        public double InnerAxisRate
+        public RotateTransform3D InnerAxisTransform
         {
-            get { return _innerAxisRate; }
-            set
-            {
-                _innerAxisRate = value;
-                _innerAxisSimulator.Rate = value;
-                OnPropertyChanged();
-            }
+            get { return BackingFields.GetValue<RotateTransform3D>(); }
+            private set { BackingFields.SetValue(value); }
+        }
+
+        public RotateTransform3D OuterAxisTransform
+        {
+            get { return BackingFields.GetValue<RotateTransform3D>(); }
+            private set { BackingFields.SetValue(value); }
         }
 
         public double InnerAxisPosition
         {
-            get { return _innerAxisPosition; }
-            set
-            {
-                _innerAxisPosition = value;
-                _innerAxisSimulator.Position = value;
-                OnPropertyChanged();
-            }
+            get { return BackingFields.GetValue<double>(); }
+            set { BackingFields.SetValue(value, x => _innerAxisSimulator.Position = value); }
         }
 
-        public double OuterAxisRate
+        public double InnerAxisRate
         {
-            get { return _outerAxisRate; }
-            set
-            {
-                _outerAxisRate = value;
-                _outerAxisSimulator.Rate = value;
-                OnPropertyChanged();
-            }
+            get { return BackingFields.GetValue<double>(); }
+            set { BackingFields.SetValue(value, x => _innerAxisSimulator.Rate = value); }
         }
 
         public double OuterAxisPosition
         {
-            get { return _outerAxisPosition; }
-            set
-            {
-                _outerAxisPosition = value;
-                _outerAxisSimulator.Position = value;
-                OnPropertyChanged();
-            }
+            get { return BackingFields.GetValue<double>(); }
+            set { BackingFields.SetValue(value, x => _outerAxisSimulator.Position = value); }
+        }
+
+        public double OuterAxisRate
+        {
+            get { return BackingFields.GetValue<double>(); }
+            set { BackingFields.SetValue(value, x => _outerAxisSimulator.Rate = value); }
         }
 
         private void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
@@ -101,7 +89,7 @@
         {
             while (true)
             {
-                Dispatcher.Invoke(() =>
+                _dispatcher.Invoke(() =>
                 {
                     InnerAxisPosition = _innerAxisSimulator.Position;
                     OuterAxisPosition = _outerAxisSimulator.Position;
@@ -109,17 +97,6 @@
                     Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
                 });
                 Thread.Sleep(_pollingTime);
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
