@@ -12,6 +12,10 @@
     {
         private readonly Stopwatch _stopwatch;
         private readonly TimeSpanAxis _timeAxis;
+        private TimeSpan _visibleTime;
+        private const string TimeAxisKey = "TimeAxis";
+        private const string PositionAxisKey = "PositionAxis";
+        private const string RateAxisKey = "RateAxis";
 
         public ChartViewModel()
         {
@@ -19,9 +23,35 @@
 
             PlotModel = new PlotModel();
 
-            _timeAxis = new TimeSpanAxis { Position = AxisPosition.Bottom, Title = "Time", };
+            _timeAxis = new TimeSpanAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Time",
+                Key = TimeAxisKey,
+                IsPanEnabled = false,
+                IsZoomEnabled = false
+            };
             PlotModel.Axes.Add(_timeAxis);
-            PlotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Degrees", Minimum = 0, Maximum = 360 });
+            PlotModel.Axes.Add(new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "Degrees",
+                Key = PositionAxisKey,
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                Minimum = 0,
+                Maximum = 360
+            });
+            PlotModel.Axes.Add(new LinearAxis
+            {
+                Position = AxisPosition.Right,
+                Title = "Degrees/s",
+                Key = RateAxisKey,
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                Minimum = -360,
+                Maximum = 360
+            });
         }
 
         public PlotModel PlotModel
@@ -32,6 +62,16 @@
 
         public void AddPositionPoint(double position, string name)
         {
+            AddPoint(position, name, PositionAxisKey);
+        }
+
+        public void AddRatePoint(double rate, string name)
+        {
+            AddPoint(rate, name, RateAxisKey);
+        }
+
+        private void AddPoint(double value, string name, string yAxisKey)
+        {
             if (!_stopwatch.IsRunning)
             {
                 _stopwatch.Start();
@@ -40,13 +80,21 @@
             var serie = PlotModel.Series.OfType<LineSeries>().SingleOrDefault(series => series.Title == name);
             if (serie == null)
             {
-                serie = new LineSeries { Title = name, TrackerFormatString = "{0}\n{1}: {2:mm\\:ss\\:ms}\n{3}: {4:0.###}" };
+                serie = new LineSeries
+                {
+                    Title = name,
+                    XAxisKey = TimeAxisKey,
+                    YAxisKey = yAxisKey,
+                    TrackerFormatString = "{0}\n{1}: {2:mm\\:ss\\:ms}\n{3}: {4:0.###}"
+                };
                 PlotModel.Series.Add(serie);
             }
 
-            serie.Points.Add(new DataPoint(TimeSpanAxis.ToDouble(_stopwatch.Elapsed), position));
+            serie.Points.RemoveAll(point => point.X < TimeSpanAxis.ToDouble(_stopwatch.Elapsed - _visibleTime));
+            serie.Points.Add(new DataPoint(TimeSpanAxis.ToDouble(_stopwatch.Elapsed), value));
 
-            _timeAxis.Minimum = Math.Max(0, TimeSpanAxis.ToDouble(_stopwatch.Elapsed - TimeSpan.FromSeconds(10)));
+            _visibleTime = TimeSpan.FromSeconds(10);
+            _timeAxis.Minimum = Math.Max(0, TimeSpanAxis.ToDouble(_stopwatch.Elapsed - _visibleTime));
             PlotModel.InvalidatePlot(true);
         }
     }
