@@ -63,7 +63,8 @@
             {
                 InnerAxisViewModel.Position = _innerAxisSimulator.Position;
                 OuterAxisViewModel.Position = _outerAxisSimulator.Position;
-                ChartViewModel.AddPositionPoint(_innerAxisSimulator.Position);
+                ChartViewModel.AddPositionPoint(_innerAxisSimulator.Position, "Inner Axis Position");
+                ChartViewModel.AddPositionPoint(_outerAxisSimulator.Position, "Outer Axis Position");
                 Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
                 Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
             });

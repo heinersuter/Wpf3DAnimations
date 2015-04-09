@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
@@ -9,7 +10,6 @@
 
     public class ChartViewModel : ViewModel
     {
-        private readonly LineSeries _lineSeries;
         private readonly Stopwatch _stopwatch;
         private readonly TimeSpanAxis _timeAxis;
 
@@ -22,9 +22,6 @@
             _timeAxis = new TimeSpanAxis { Position = AxisPosition.Bottom, Title = "Time", };
             PlotModel.Axes.Add(_timeAxis);
             PlotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Degrees", Minimum = 0, Maximum = 360 });
-
-            _lineSeries = new LineSeries();
-            PlotModel.Series.Add(_lineSeries);
         }
 
         public PlotModel PlotModel
@@ -33,13 +30,21 @@
             private set { BackingFields.SetValue(value); }
         }
 
-        public void AddPositionPoint(double position)
+        public void AddPositionPoint(double position, string name)
         {
             if (!_stopwatch.IsRunning)
             {
                 _stopwatch.Start();
             }
-            _lineSeries.Points.Add(new DataPoint(TimeSpanAxis.ToDouble(_stopwatch.Elapsed), position));
+
+            var serie = PlotModel.Series.OfType<LineSeries>().SingleOrDefault(series => series.Title == name);
+            if (serie == null)
+            {
+                serie = new LineSeries { Title = name, TrackerFormatString = "{0}\n{1}: {2:mm\\:ss\\:ms}\n{3}: {4:0.###}" };
+                PlotModel.Series.Add(serie);
+            }
+
+            serie.Points.Add(new DataPoint(TimeSpanAxis.ToDouble(_stopwatch.Elapsed), position));
 
             _timeAxis.Minimum = Math.Max(0, TimeSpanAxis.ToDouble(_stopwatch.Elapsed - TimeSpan.FromSeconds(10)));
             PlotModel.InvalidatePlot(true);
