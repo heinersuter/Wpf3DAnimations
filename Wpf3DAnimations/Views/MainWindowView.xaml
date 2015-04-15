@@ -11,6 +11,7 @@
         <StackPanel DockPanel.Dock="Right" Width="128" Margin="8">
             <views:AxisView DataContext="{Binding OuterAxisViewModel}"/>
             <views:AxisView DataContext="{Binding InnerAxisViewModel}"/>
+            <views:ZwürfelView Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" Margin="0 128 0 0"/>
         </StackPanel>
 
         <UniformGrid Columns="1">

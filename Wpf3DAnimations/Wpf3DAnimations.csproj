@@ -96,6 +96,10 @@
       <DependentUpon>TwoAxesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TwoAxesViewModel.cs" />
+    <Compile Include="Views\ZwürfelView.xaml.cs">
+      <DependentUpon>ZwürfelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZwürfelViewModel.cs" />
     <Page Include="Views\AxisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +116,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ZwürfelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -120,7 +128,9 @@
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Zuehlke.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

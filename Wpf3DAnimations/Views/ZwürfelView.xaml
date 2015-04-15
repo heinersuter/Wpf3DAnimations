@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Wpf3DAnimations.Views.ZwürfelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:Wpf3DAnimations.Views"
+             xmlns:h="http://helix-toolkit.org/wpf"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance views:ZwürfelViewModel}">
+
+    <UserControl.Resources>
+        <ImageBrush x:Key="ZühlkeBrush" ImageSource="/Images/Zuehlke.jpg"/>
+    </UserControl.Resources>
+
+    <h:HelixViewport3D ShowViewCube="False">
+        <h:HelixViewport3D.Camera>
+            <PerspectiveCamera Position="130 130 130" LookDirection="-130 -130 -130" UpDirection="0 0 1" NearPlaneDistance="0"/>
+        </h:HelixViewport3D.Camera>
+
+        <h:DefaultLights/>
+        <h:GridLinesVisual3D Thickness="1" Width="1000" Length="1000" MajorDistance="100" MinorDistance="50"/>
+
+        <h:CubeVisual3D SideLength="100" Fill="{StaticResource ZühlkeBrush}"/>
+        <h:CubeVisual3D SideLength="10" Fill="{StaticResource ZühlkeBrush}"/>
+        <h:CubeVisual3D SideLength="1" Fill="{StaticResource ZühlkeBrush}"/>
+        <h:CubeVisual3D SideLength="0.1" Fill="{StaticResource ZühlkeBrush}"/>
+
+    </h:HelixViewport3D>
+</UserControl>

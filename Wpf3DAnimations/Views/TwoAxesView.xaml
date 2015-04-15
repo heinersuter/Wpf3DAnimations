@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance views:TwoAxesViewModel}">
     
-    <h:HelixViewport3D x:Name="HelixViewport3D" ShowViewCube="False">
+    <h:HelixViewport3D ShowViewCube="False">
         <h:HelixViewport3D.Camera>
             <PerspectiveCamera Position="0 20 6" LookDirection="0 -20 -8" UpDirection="0 0 1" NearPlaneDistance="0.1"/>
         </h:HelixViewport3D.Camera>
