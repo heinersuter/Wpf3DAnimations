@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Wpf3DAnimations.Views"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance views:MainWindowViewModel}"
-        Title="3D Animation with the Helixtoolkit for WPF" Height="400" Width="780">
+        Title="3D Animation with the Helixtoolkit for WPF" Height="800" Width="780">
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Right" Width="128" Margin="8">
@@ -13,16 +13,13 @@
             <views:AxisView DataContext="{Binding InnerAxisViewModel}"/>
         </StackPanel>
 
-        <TabControl TabStripPlacement="Bottom">
-            
-            <TabItem Header="3D Model">
-                <views:TwoAxesView DataContext="{Binding TwoAxesViewModel}"/>
-            </TabItem>
-            
-            <TabItem Header="Chart">
-                <views:ChartView DataContext="{Binding ChartViewModel}"/>
-            </TabItem>
+        <UniformGrid Columns="1">
 
-        </TabControl>
+            <views:TwoAxesView DataContext="{Binding TwoAxesViewModel}"/>
+
+            <views:ChartView DataContext="{Binding ChartViewModel}"/>
+
+        </UniformGrid>
+
     </DockPanel>
 </Window>

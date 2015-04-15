@@ -29,6 +29,11 @@
             _stopWatch.Restart();
             var framesPerSecond = 10000000.0 / timeSinceLastUpdate.Ticks;
 
+            UpdatePosition(framesPerSecond);
+        }
+
+        private void UpdatePosition(double framesPerSecond)
+        {
             var newPosition = (Position + (Rate / framesPerSecond));
             newPosition = newPosition % 360.0;
             if (newPosition < 0)

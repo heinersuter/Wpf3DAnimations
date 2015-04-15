@@ -7,7 +7,17 @@
              xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance views:ChartViewModel}">
-    
-    <oxy:PlotView Model="{Binding PlotModel}"/>
+
+    <DockPanel>
+
+        <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="32 0">
+            <CheckBox IsChecked="{Binding IsPositionVisible}" Content="Position"/>
+            <CheckBox IsChecked="{Binding IsRateVisible}" Content="Rate"/>
+            <CheckBox IsChecked="{Binding IsAmplitudeVisible}" Content="Amplitude"/>
+        </UniformGrid>
+
+        <oxy:PlotView Model="{Binding PlotModel}"/>
+
+    </DockPanel>
 
 </UserControl>
