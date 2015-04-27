@@ -18,7 +18,9 @@
 
             <views:TwoAxesView DataContext="{Binding TwoAxesViewModel}"/>
 
-            <views:ChartView DataContext="{Binding ChartViewModel}"/>
+            <Expander Header="Chart">
+                <views:ChartView DataContext="{Binding ChartViewModel}"/>
+            </Expander>
 
         </UniformGrid>
 
