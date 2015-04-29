@@ -150,11 +150,13 @@
             get { return BackingFields.GetValue<bool>(); }
             set
             {
-                BackingFields.SetValue(value, x =>
-                {
-                    _innerAxisPositionSeries.IsVisible = x;
-                    _outerAxisPositionSeries.IsVisible = x;
-                });
+                BackingFields.SetValue(
+                    value,
+                    x =>
+                    {
+                        _innerAxisPositionSeries.IsVisible = x;
+                        _outerAxisPositionSeries.IsVisible = x;
+                    });
             }
         }
 
@@ -163,11 +165,13 @@
             get { return BackingFields.GetValue<bool>(); }
             set
             {
-                BackingFields.SetValue(value, x =>
-                {
-                    _innerAxisRateSeries.IsVisible = x;
-                    _outerAxisRateSeries.IsVisible = x;
-                });
+                BackingFields.SetValue(
+                    value,
+                    x =>
+                    {
+                        _innerAxisRateSeries.IsVisible = x;
+                        _outerAxisRateSeries.IsVisible = x;
+                    });
             }
         }
 
@@ -176,11 +180,13 @@
             get { return BackingFields.GetValue<bool>(); }
             set
             {
-                BackingFields.SetValue(value, x =>
-                {
-                    _innerAxisAmplitudeSeries.IsVisible = x;
-                    _outerAxisAmplitudeSeries.IsVisible = x;
-                });
+                BackingFields.SetValue(
+                    value,
+                    x =>
+                    {
+                        _innerAxisAmplitudeSeries.IsVisible = x;
+                        _outerAxisAmplitudeSeries.IsVisible = x;
+                    });
             }
         }
 

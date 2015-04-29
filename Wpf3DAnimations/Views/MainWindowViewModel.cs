@@ -57,6 +57,32 @@
             private set { BackingFields.SetValue(value); }
         }
 
+        public void Dispose()
+        {
+            _innerAxisSimulator.Dispose();
+            _outerAxisSimulator.Dispose();
+            _timer.Dispose();
+        }
+
+        private static void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
+        {
+            if (Math.Abs(rate) > 0.1 * animationDuration.TotalSeconds)
+            {
+                // Simulate future movement with given rate
+                var newPosition = position + (rate * animationDuration.TotalSeconds);
+                axisAngleRotation3D.BeginAnimation(
+                    AxisAngleRotation3D.AngleProperty,
+                    new DoubleAnimation(position, newPosition, new Duration(animationDuration)));
+            }
+            else
+            {
+                // Jump to current position
+                axisAngleRotation3D.BeginAnimation(
+                    AxisAngleRotation3D.AngleProperty,
+                    new DoubleAnimation(position, new Duration(TimeSpan.Zero)));
+            }
+        }
+
         private void Poll()
         {
             _dispatcher.Invoke(() =>
@@ -72,30 +98,6 @@
                 Animate(_innerAxisSimulator.Position, _innerAxisSimulator.Rate, _innerAxisRotation, _pollingTime);
                 Animate(_outerAxisSimulator.Position, _outerAxisSimulator.Rate, _outerAxisRotation, _pollingTime);
             });
-        }
-
-        private static void Animate(double position, double rate, AxisAngleRotation3D axisAngleRotation3D, TimeSpan animationDuration)
-        {
-            if (Math.Abs(rate) > 0.1 * animationDuration.TotalSeconds)
-            {
-                // Simulate future movement with given rate
-                var newPosition = position + rate * animationDuration.TotalSeconds;
-                axisAngleRotation3D.BeginAnimation(AxisAngleRotation3D.AngleProperty,
-                    new DoubleAnimation(position, newPosition, new Duration(animationDuration)));
-            }
-            else
-            {
-                // Jump to current position
-                axisAngleRotation3D.BeginAnimation(AxisAngleRotation3D.AngleProperty,
-                    new DoubleAnimation(position, new Duration(TimeSpan.Zero)));
-            }
-        }
-
-        public void Dispose()
-        {
-            _innerAxisSimulator.Dispose();
-            _outerAxisSimulator.Dispose();
-            _timer.Dispose();
         }
     }
 }

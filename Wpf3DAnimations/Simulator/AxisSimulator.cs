@@ -19,6 +19,11 @@
 
         public double Position { get; set; }
 
+        public void Dispose()
+        {
+            _timer.Dispose();
+        }
+
         private void UpdateValues()
         {
             if (!_stopWatch.IsRunning)
@@ -34,18 +39,13 @@
 
         private void UpdatePosition(double framesPerSecond)
         {
-            var newPosition = (Position + (Rate / framesPerSecond));
+            var newPosition = Position + (Rate / framesPerSecond);
             newPosition = newPosition % 360.0;
             if (newPosition < 0)
             {
                 newPosition = 360.0 + newPosition;
             }
             Position = newPosition;
-        }
-
-        public void Dispose()
-        {
-            _timer.Dispose();
         }
     }
 }
