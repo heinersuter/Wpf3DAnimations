@@ -1,7 +1,7 @@
 ﻿namespace Wpf3DAnimations.Views
 {
     using System.Windows.Media.Media3D;
-    using Wpf3DAnimations.Common.Mvvm;
+    using Alsolos.Commons.Wpf.Mvvm;
 
     public class TwoAxesViewModel : ViewModel
     {

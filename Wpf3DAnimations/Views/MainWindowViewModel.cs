@@ -6,7 +6,7 @@
     using System.Windows.Media.Animation;
     using System.Windows.Media.Media3D;
     using System.Windows.Threading;
-    using Wpf3DAnimations.Common.Mvvm;
+    using Alsolos.Commons.Wpf.Mvvm;
     using Wpf3DAnimations.Simulator;
 
     public class MainWindowViewModel : ViewModel, IDisposable

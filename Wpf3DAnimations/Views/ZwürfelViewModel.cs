@@ -1,6 +1,8 @@
 ﻿namespace Wpf3DAnimations.Views
 {
-    public class ZwürfelViewModel
+    using Alsolos.Commons.Wpf.Mvvm;
+
+    public class ZwürfelViewModel : ViewModel
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Wpf3DAnimations.Views
 {
-    using Wpf3DAnimations.Common.Mvvm;
+    using Alsolos.Commons.Wpf.Mvvm;
     using Wpf3DAnimations.Simulator;
 
     public class AxisViewModel : ViewModel

@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alsolos.Commons.Wpf, Version=1.1.5592.15604, Culture=neutral, PublicKeyToken=f605607e31c8fafe, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alsolos.Commons.Wpf.1.1.0\lib\net451\Alsolos.Commons.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HelixToolkit">
       <HintPath>..\packages\HelixToolkit.2015.1.506\lib\portable-net4+sl4+wp71+win8\HelixToolkit.dll</HintPath>
     </Reference>
@@ -69,12 +73,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\Mvvm\BackingFields.cs" />
-    <Compile Include="Common\Mvvm\DelegateCommand.cs" />
-    <Compile Include="Common\Mvvm\NotificationObject.cs" />
-    <Compile Include="Common\Mvvm\PropertyHelper.cs" />
-    <Compile Include="Common\Mvvm\ViewModel.cs" />
-    <Compile Include="Common\Utilities\EventArgs.cs" />
     <Compile Include="Simulator\AxisSimulator.cs" />
     <Compile Include="Views\AxisView.xaml.cs">
       <DependentUpon>AxisView.xaml</DependentUpon>

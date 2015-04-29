@@ -2,10 +2,10 @@
 {
     using System;
     using System.Diagnostics;
+    using Alsolos.Commons.Wpf.Mvvm;
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
-    using Wpf3DAnimations.Common.Mvvm;
 
     public class ChartViewModel : ViewModel
     {
